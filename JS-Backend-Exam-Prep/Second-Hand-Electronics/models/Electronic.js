@@ -37,10 +37,14 @@ const electronicSchema = new mongoose.Schema({
     {
       type: mongoose.Types.ObjectId,
       ref: "User",
-    },
+    }
   ],
   owner: {
     type: mongoose.Types.ObjectId,
     ref: "User",
   },
 });
+
+const Electronic = mongoose.model('Electronic', electronicSchema)
+
+module.exports = Electronic

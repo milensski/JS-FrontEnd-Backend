@@ -1,47 +1,46 @@
-<!DOCTYPE html>
 <html lang="en">
 
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
     <title>Second Hand Electronics</title>
-    <link rel="stylesheet" href="./css/styles.css">
-</head>
+    <link rel="stylesheet" href="./css/styles.css" />
+  </head>
 
-<body>
+  <body>
     <!-- In case of error, you should display div with class "errorContainer" -->
     <!-- You can choose to display the first error or all of them (error message/s in your opinion) -->
     {{#if error}}
-    <div>
+      <div>
         <div class="errorContainer">
-            <p>{{error}}</p>
+          <p>{{error}}</p>
         </div>
-    </div>
+      </div>
     {{/if}}
 
     <div id="container">
 
-        <nav>
-            <ul>
-                <!--For all users-->
-                <li><a href="/">Home</a></li>
-                <li><a href="#">Catalog</a></li>
-                {{#if isAuthorized}}
-                <li><a href="#">Create Offer</a></li>
-                <li><a href="/search">Search</a></li>
-                <li><a href="/logout">Logout</a></li>
-                {{else}}
-                <li><a href="/login">Login</a></li>
-                <li><a href="/register">Register</a></li>
-                {{/if}}
-            </ul>
+      <nav>
+        <ul>
+          <!--For all users-->
+          <li><a href="/">Home</a></li>
+          <li><a href="#">Catalog</a></li>
+          {{#if isAuthorized}}
+            <li><a href="/create">Create Offer</a></li>
+            <li><a href="/search">Search</a></li>
+            <li><a href="/logout">Logout</a></li>
+          {{else}}
+            <li><a href="/login">Login</a></li>
+            <li><a href="/register">Register</a></li>
+          {{/if}}
+        </ul>
 
-        </nav>
+      </nav>
 
-        {{{body}}}
+      {{{body}}}
 
-        <footer>@SoftUni - JS Back-End - Second Hand Electronics 2023</footer>
+      <footer>@SoftUni - JS Back-End - Second Hand Electronics 2023</footer>
     </div>
 
-</body>
+  </body>
 
 </html>
