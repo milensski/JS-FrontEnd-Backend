@@ -1,4 +1,5 @@
 const router = require("express").Router();
+const { isAuth } = require("../middlewares/authMiddleware");
 const authService = require("../services/authService");
 const { getErrorMessage } = require("../utils/errorUtils");
 
@@ -11,16 +12,18 @@ router.post("/register", async (req, res) => {
 
   try {
     if (userData.password !== userData.rePassword) {
-      throw new Error("Password missmatch!");
+      throw new Error("Password dont match!");
     }
 
-    await authService.create(userData);
+    const token = await authService.create(userData);
 
-    //TODO: AutoLogin
+   //auto Login
+    res.cookie('auth', token)
 
     res.redirect("/");
+    
   } catch (error) {
-    res.render("register", { error: getErrorMessage(error) });
+    res.render("register", { error: getErrorMessage(error), ...userData });
   }
 });
 
@@ -40,9 +43,11 @@ router.post("/login", async (req, res) => {
   }
 });
 
-router.get("/logout", (req, res) => {
+router.get("/logout", isAuth, (req, res) => {
   res.clearCookie("auth");
   res.redirect("/");
 });
+
+
 
 module.exports = router;

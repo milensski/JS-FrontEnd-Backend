@@ -20,7 +20,11 @@ exports.create = async (userData) => {
 
   userData.password = password;
 
-  return User.create(userData);
+  const createdUser = await User.create(userData);
+
+  const token = await generateToken(createdUser)
+
+  return token
 };
 
 exports.login = async (email, password) => {
@@ -28,23 +32,28 @@ exports.login = async (email, password) => {
     const user = await User.findOne({email})
 
     if (!user) {
-        throw new Error('User or password mismatch')
+        throw new Error('Invalid email or password')
     };
 
     isValid = await bcrypt.compare(password, user.password)
 
     if (!isValid) {
-        throw new Error("User or password mismatch");
+        throw new Error("Invalid email or password");
     };
     
-    const payload = {
-        _id: user._id,
-        email: user.email,
-        username: user.username,
-    }
 
-    const token = await jwt.sign(payload, config.development.SECRET)
+    const token = await generateToken(user)
 
     return token
 
+}
+
+function generateToken(user) {
+  const payload = {
+    _id: user._id,
+    email: user.email,
+    username: user.username,
+  };
+
+  return jwt.sign(payload, config.development.SECRET)
 }
